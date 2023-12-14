@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h5 class="card-title py-2 text-center">Login</h5>
                     <form>
-                        <div class="form-group">
+                        <div class="form-group" method="post" action="<?php echo site_url('auth/login'); ?>">
                             <label for="nick">Nombre de usuario</label>
                             <input type="text" class="form-control" id="nick" name="nick">
                         </div>
