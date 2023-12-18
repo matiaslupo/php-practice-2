@@ -5,8 +5,9 @@ class Auth extends CI_Controller {
 
 	private $f= "auth/";
 	private $datos= array();
+	private $mostrar_barra= true;
 
-	private function __construct(){
+	public function __construct(){
 		parent::__construct();
 		$this->load->model('usuarios_model');
 	}
@@ -48,7 +49,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function cerrar_sesion(){
-		
+
 	}
 
 	private function mostrar($vista= "login"){
