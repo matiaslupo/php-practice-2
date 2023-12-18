@@ -5,7 +5,6 @@ class Auth extends CI_Controller {
 
 	private $f= "auth/";
 	private $datos= array();
-	private $mostrar_barra= true;
 
 	public function __construct(){
 		parent::__construct();
