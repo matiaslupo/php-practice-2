@@ -8,6 +8,7 @@ class Auth extends CI_Controller {
 
 	private function __construct(){
 		parent::__construct();
+		$this->load->model('usuarios_model');
 	}
 
 	public function index()
@@ -16,6 +17,10 @@ class Auth extends CI_Controller {
 	}
 
 	public function main(){
+		if (isset($_SESSION['usuario_id'])){
+			redirect('home');
+			return;
+		}
 		$this->mostrar();
 	}
 
@@ -23,11 +28,27 @@ class Auth extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nick', 'Nombre de usuario', 'trim|required');
 		$this->form_validation->set_rules('clave', 'Clave', 'required');
-		if ($this->form_validation->run() === false){
-			$this->datos['errores']= validation_errors();
-			redirect('auth');
-			exit();
+		if ($this->form_validation->run()){				
+			$nick= $this->input->post('nick');
+			$password= $this->input->post('clave');			
+			if ($res= $this->usuarios_model->login($datos= array('nick' => $nick, 'password' => $password))){
+				$_SESSION['usuario_id']= $res['usuario_id'];
+				$_SESSION['usuario']= $nick;
+				redirect('home');
+				return;
+			}
+			else{
+				$this->datos['errores']= 'Credenciales invalidas, intente de nuevo';				
+			}
 		}		
+		else {			
+			$this->datos['errores']= validation_errors();
+		}
+		$this->mostrar();
+	}
+
+	public function cerrar_sesion(){
+		
 	}
 
 	private function mostrar($vista= "login"){
